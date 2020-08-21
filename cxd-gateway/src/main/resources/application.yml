@@ -1,0 +1,48 @@
+server:
+  port: 8888
+spring:
+  application:
+    name: cxd-gateway
+  profiles:
+    active:
+      - dev
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+      #路径匹配
+      routes:
+        - id: cxd-mobile
+          uri: lb://cxd-mobile
+          predicates:
+            - Path=/cxd-mobile/**
+          filters:
+            - StripPrefix=1
+        - id: cxd-web
+          uri: lb://cxd-web
+          predicates:
+            - Path=/cxd-web/**
+          filters:
+            - StripPrefix=1
+
+    #nacos服务注册
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848
+    alibaba:
+      seata:
+        #自定义事务组名称
+        tx-service-group: cxd-gateway-group
+
+logging:
+  level:
+    org.springframework.cloud.gateway: info
+
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds:5000:

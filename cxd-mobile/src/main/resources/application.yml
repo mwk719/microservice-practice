@@ -1,0 +1,49 @@
+server:
+  port: 8010
+spring:
+  application:
+    name: cxd-mobile
+  mvc:
+    async:
+      request-timeout: 20000
+  profiles:
+    active:
+      - dev
+#nacos服务注册
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848
+    alibaba:
+      seata:
+        #自定义事务组名称
+        tx-service-group: cxd-mobile-group
+
+#解决swagger的一个bug
+logging:
+  level:
+    io:
+      swagger:
+        models:
+          parameters:
+            AbstractSerializableParameter: error
+
+ribbon:
+  eureka:
+    enabled: true
+
+feign:
+  hystrix:
+    enabled: true
+
+#配置feign请求头
+hystrix:
+  command:
+    default:
+      execution:
+        timeout:
+          enabled: true
+        isolation:
+          strategy: SEMAPHORE
+          thread:
+            timeoutInMilliseconds: 60000
