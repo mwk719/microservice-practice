@@ -1,4 +1,12 @@
-# 微服务项目实战
+# 微服务项目实战练习
+
+### 说明：
+1. 如果您之前从未接触过Spring Cloud，建议先以[程序猿DD-Dalston版](http://blog.didispace.com/spring-cloud-learning/) 开始学习，或者您可以浏览我的学习Demo[SpringCloud-Learing](https://github.com/mwk719/SpringCloud-Learing)
+2. 如果您想学习nacos在项目中应用，阿里出厂的nacos：一个更易于构建云原生应用的动态服务发现、配置管理和服务管理平台；用Spring Cloud组件理解的话，约等于eureka+spring cloud config
+3. 如果您想学习seata在项目中应用，阿里出厂的seata：一款开源的分布式事务解决方案，致力于在微服务架构下提供高性能和简单易用的分布式事务服务
+4. 以上项目组件您都有接触，但是想练习这些组件如何在项目中有机结合使用，那您真是来对地方了
+
+*因作者技术水平有限，如您发现可能存在的问题，欢迎指正，以便相互学习！*
 
 ### 介绍
 1. cxd-mobile：移动端接口服务（可做app/小程序/网页端服务）
@@ -60,7 +68,7 @@
 4. install cxd-repository
 5. start cxd-mobile/cxd-scheduled/cxd-web
 
-### 注意事项
+### 功能事项
 
 #### cxd-gateway
 
@@ -96,7 +104,7 @@
 
 1. 使用shiro做权限管理；
 
-##### 注意事项
+### 注意事项
 
 1. 新增接口时保持接口路径与sys_permission表所存储url路径基本一致，如接口路径approve/config/titleList，url存储为configTitleList
 2. 接口功能为新增/修改/删除/锁定时，sys_permission表中权限名称则以该关键字符开头

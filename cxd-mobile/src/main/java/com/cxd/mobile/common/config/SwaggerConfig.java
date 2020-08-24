@@ -23,7 +23,7 @@ public class SwaggerConfig {
 	}
 
 	private ApiInfo apiInfo() {
-		return new ApiInfoBuilder().title("微服务项目实战移动端系统API文档")
+		return new ApiInfoBuilder().title("微服务项目实战练习移动端系统API文档")
 				.description("致力写出思路更加清晰，逻辑性更强，冗余度更低，可维护性和可重用性更高的代码")
 				.version("1.0").build();
 	}
