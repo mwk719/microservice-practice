@@ -4,7 +4,6 @@ import cn.hutool.json.JSON;
 import cn.hutool.json.JSONUtil;
 import com.cxd.tool.constant.ApplicationNameEnum;
 import com.cxd.tool.constant.ErrorCode;
-import com.cxd.tool.constant.RedisKeyEnum;
 import com.cxd.tool.exception.BusinessException;
 import com.cxd.tool.exception.DataException;
 import com.cxd.tool.filter.KoalaHttpRequestWrapper;
@@ -96,14 +95,9 @@ public class CommonUtil {
 				log.error(e.getMessage());
 				return new DataException(ErrorCode.LACK_COMMON_PARAM);
 			}
-			//校验登录key
-			String key = String.valueOf(redisSpringProxy.read(RedisKeyEnum.CUSTOMER.getCxdValue(commonVo.getCustomerId())));
-			if (StringUtils.isBlank(key)) {
-				return new DataException(ErrorCode.LOGIN_EXPIRED);
-			}
 
 			//签名校验
-			if (!SignUtil.check(json, key)) {
+			if (!JwtUtil.checkJWT(commonVo.getSign(),String.valueOf(commonVo.getCustomerId()))) {
 				return new DataException(ErrorCode.ERROR_SIGN);
 			}
 			//成功返回

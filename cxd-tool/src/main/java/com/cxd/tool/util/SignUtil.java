@@ -21,7 +21,7 @@ public class SignUtil {
 
 	/**
 	 * 签名校验
-	 *
+	 * 可对参数完整性进行校验
 	 * @param json
 	 * @param key
 	 * @return

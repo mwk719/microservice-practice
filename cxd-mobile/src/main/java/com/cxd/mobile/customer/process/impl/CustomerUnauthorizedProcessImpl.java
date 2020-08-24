@@ -6,6 +6,7 @@ import com.cxd.mobile.customer.process.CustomerUnauthorizedProcess;
 import com.cxd.mobile.customer.service.CustomerService;
 import com.cxd.repository.customer.pojo.entity.Customer;
 import com.cxd.tool.util.CommonBeanUtils;
+import com.cxd.tool.util.JwtUtil;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -31,10 +32,10 @@ public class CustomerUnauthorizedProcessImpl implements CustomerUnauthorizedProc
 		//校验密码
 		customerService.checkPassword(loginVo.getPassword(), customer.getPassword());
 
+		RespCustomerLoginVo customerLoginVo = CommonBeanUtils.copyProperties(customer, RespCustomerLoginVo.class);
 		//生成key并返回
-		//String key = customerService.createKey(customer);
-		//customerLoginVo.setKey(key);
-		return CommonBeanUtils.copyProperties(customer, RespCustomerLoginVo.class);
-
+		String key = JwtUtil.buildJWT(String.valueOf(customerLoginVo.getCustomerId()), customerLoginVo.getUsername());
+		customerLoginVo.setKey(key);
+		return customerLoginVo;
 	}
 }

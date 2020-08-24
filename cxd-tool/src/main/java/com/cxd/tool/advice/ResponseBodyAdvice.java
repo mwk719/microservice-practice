@@ -42,14 +42,14 @@ public class ResponseBodyAdvice {
 		} else if (object instanceof Collection) {
 			//匹配集合
 			result = new ResponseResult<>().setResultVo(object);
-		} else if ("1".equals(object.getByPath("errorCode"))) {
+		} else if ("1".equals(object.getByPath("code"))) {
 			return body;
 		} else if (null != object.getByPath("status", Integer.class)
 				&& SC_OK != object.getByPath("status", Integer.class)) {
 			//gateway请求的服务端出错
 			throw new RuntimeException(object.toString());
 		} else {
-			result = new ResponseResult<>().setData(object);
+			result = new ResponseResult<>().SUCCESS(object);
 		}
 		return JSONUtil.parseObj(result);
 	}

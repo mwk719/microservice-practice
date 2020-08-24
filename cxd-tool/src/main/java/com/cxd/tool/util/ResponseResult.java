@@ -4,6 +4,7 @@ package com.cxd.tool.util;
 import com.cxd.tool.constant.ErrorCode;
 import com.cxd.tool.exception.BusinessException;
 import com.cxd.tool.vo.req.ResultVo;
+import lombok.Data;
 
 import java.io.Serializable;
 
@@ -11,6 +12,7 @@ import java.io.Serializable;
  * @author MinWeikai
  * @date 2020-01-21 15:42:10
  */
+@Data
 public class ResponseResult<T> implements Serializable {
 	private static final long serialVersionUID = 1L;
 	/**
@@ -57,32 +59,17 @@ public class ResponseResult<T> implements Serializable {
 		this.data = data;
 	}
 
-	public String getErrorCode() {
-		return this.code;
-	}
-
-	public void setErrorCode(String errorCode) {
-		this.code = errorCode;
-	}
-
-	public String getErrorMsg() {
-		return this.msg;
-	}
-
-	public void setErrorMsg(String errorMsg) {
-		this.msg = errorMsg;
-	}
-
 	public T getData() {
 		return this.data;
 	}
 
-	public ResponseResult setData(T data) {
+	public ResponseResult SUCCESS(T data) {
+		this.code = ErrorCode.SUCCESS.getCode();
 		this.data = data;
 		return this;
 	}
 
 	public ResponseResult setResultVo(T data) {
-		return new ResponseResult().setData(new ResultVo<>(data));
+		return new ResponseResult().SUCCESS(new ResultVo<>(data));
 	}
 }

@@ -51,7 +51,7 @@ public class MyResponseBodyAdvice implements ResponseBodyAdvice {
 			return new ResponseResult<>().setResultVo(body);
 		}
 
-		return new ResponseResult<>().setData(body);
+		return new ResponseResult<>().SUCCESS(body);
 	}
 
 	@Override

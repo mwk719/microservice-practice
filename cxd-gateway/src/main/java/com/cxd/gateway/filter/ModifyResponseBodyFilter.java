@@ -60,7 +60,7 @@ public class ModifyResponseBodyFilter implements GlobalFilter, Ordered {
 						DataBufferUtils.release(join);
 						//拦截到的返回体内容，可以随意去操作了
 						String str = new String(content, CharsetUtil.UTF_8);
-						str = ResponseBodyAdvice.modifyResponseBody(str, nowPath, ignoreUri.getIgnoreCheckUris()).toString();
+						str = ResponseBodyAdvice.modifyResponseBody(str, nowPath, ignoreUri.getIgnoreResultUris()).toString();
 						//请求执行时间
 						printExecutionTime(exchange);
 						originalResponse.getHeaders().setContentLength(str.getBytes().length);
@@ -77,9 +77,9 @@ public class ModifyResponseBodyFilter implements GlobalFilter, Ordered {
 
 	}
 
-	private static void printExecutionTime(ServerWebExchange exchange) {
+	private void printExecutionTime(ServerWebExchange exchange) {
 		long start = Convert.toLong(exchange.getAttributes().get("startTime"));
-		log.info("--------请求执行时间：{}毫秒--------", System.currentTimeMillis() - start);
+		log.info("[请求执行时间：{} 毫秒]", System.currentTimeMillis() - start);
 	}
 
 	@Override

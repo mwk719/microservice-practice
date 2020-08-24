@@ -4,10 +4,10 @@ import cn.hutool.core.convert.Convert;
 import cn.hutool.core.exceptions.ExceptionUtil;
 import cn.hutool.core.lang.Assert;
 import cn.hutool.core.util.ObjectUtil;
-import cn.hutool.json.JSONUtil;
 import com.cxd.gateway.params.IgnoreUri;
 import com.cxd.tool.constant.ErrorCode;
 import com.cxd.tool.constant.URIPrefixEnum;
+import com.cxd.tool.exception.BusinessException;
 import com.cxd.tool.exception.DataException;
 import com.cxd.tool.util.CommonUtil;
 import com.cxd.tool.util.RedisSpringProxy;
@@ -121,9 +121,10 @@ public class GlobalRequestFilter implements GlobalFilter, Ordered, ErrorWebExcep
 		if (ObjectUtil.isNull(dataException)) {
 			dataException = new DataException(ErrorCode.ERROR);
 		}
-		result.put("body", JSONUtil.toJsonStr(dataException));
+		result.put("body", dataException);
 		//错误记录
-		log.error(printErrorLog(exchange, ex));
+		log.error(this.printErrorLog(exchange, ex));
+		dataException = null;
 		//参考AbstractErrorWebExceptionHandler
 		if (exchange.getResponse().isCommitted()) {
 			return Mono.error(ex);
@@ -146,7 +147,7 @@ public class GlobalRequestFilter implements GlobalFilter, Ordered, ErrorWebExcep
 		sb.append(request.getPath());
 		sb.append("\n");
 		sb.append("======>[数据异常]：");
-		sb.append(dataException.getErrorMsg());
+		sb.append(dataException.getMsg());
 		sb.append("\n");
 		sb.append("======>[错误消息]：");
 		sb.append(ExceptionUtil.stacktraceToString(ex, 1000));
@@ -263,7 +264,8 @@ public class GlobalRequestFilter implements GlobalFilter, Ordered, ErrorWebExcep
 		//校验参数并返回
 		this.dataException = CommonUtil.check(method, path, param, redisSpringProxy, ignoreUri.getIgnoreCheckUris());
 		if (ObjectUtil.isNotNull(dataException)) {
-			throw new RuntimeException();
+			//进行抛出异常
+			throw new BusinessException();
 		}
 	}
 

@@ -38,12 +38,12 @@ public class JwtUtil {
 	/**
 	 * JWT 生成密钥使用的密码
 	 */
-	private static final String JWT_RULE = "cxd%cxd.*";
+	private static final String JWT_RULE = "https://minwk.top/";
 
 	/**
 	 * JWT 添加至HTTP HEAD中的前缀
 	 */
-	private static final String JWT_SEPARATOR = "Bearer ";
+	private static final String JWT_SEPARATOR = "MWK ";
 	/**
 	 * 有效时间
 	 */
@@ -128,6 +128,10 @@ public class JwtUtil {
 	 */
 	public static String buildJWT(String sub, String jti, Integer duration) {
 		return buildJWT(sub, null, jti, null, null, duration);
+	}
+
+	public static String buildJWT(String sub, String jti) {
+		return buildJWT(sub, null, jti, null, null, DURATION);
 	}
 
 	/**
