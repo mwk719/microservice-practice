@@ -2,7 +2,6 @@ package com.microservice.web.sysuser.pojo.vo.req;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.Builder;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -13,8 +12,10 @@ import java.io.Serializable;
  */
 @ApiModel("新增用户")
 @Data
-@Builder
 public class ReqAddUserVo implements Serializable {
+
+	public ReqAddUserVo() {
+	}
 
 	private Integer userId;
 

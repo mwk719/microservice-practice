@@ -35,12 +35,11 @@ public class SysUserProcessTest {
 
 	@Test
 	public void saveTest() {
-		sysUserProcess.save(
-				ReqAddUserVo.builder()
-						.userId(3)
-						.username("microservice")
-						.nickname("挂啊")
-						.build()
-		);
+		ReqAddUserVo userVo = new ReqAddUserVo();
+		userVo.setNickname("好啊好啊");
+		userVo.setUsername("microservice");
+		userVo.setRoleId(1);
+		userVo.setPassword("123");
+		sysUserProcess.save(userVo);
 	}
 }

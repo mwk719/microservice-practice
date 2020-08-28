@@ -5,11 +5,11 @@ import cn.hutool.core.exceptions.ExceptionUtil;
 import cn.hutool.core.lang.Assert;
 import cn.hutool.core.util.ObjectUtil;
 import com.microservice.gateway.params.IgnoreUri;
-import com.microservice.tool.constant.ErrorCode;
 import com.microservice.tool.constant.URIPrefixEnum;
 import com.microservice.tool.exception.BusinessException;
 import com.microservice.tool.exception.DataException;
 import com.microservice.tool.util.CommonUtil;
+import com.microservice.tool.util.ResponseResult;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -114,13 +114,14 @@ public class GlobalRequestFilter implements GlobalFilter, Ordered, ErrorWebExcep
 		//封装响应体,此body可修改为自己的jsonBody
 		Map<String, Object> result = new HashMap<>(2, 1);
 		result.put("httpStatus", HttpStatus.OK);
-		if (ObjectUtil.isNull(dataException)) {
-			dataException = new DataException(ErrorCode.ERROR);
+		Object body = new ResponseResult<>();
+		if (ObjectUtil.isNotNull(dataException)) {
+			//错误记录
+			log.error(this.printErrorLog(exchange, ex));
+			body = dataException;
+			dataException = null;
 		}
-		result.put("body", dataException);
-		//错误记录
-		log.error(this.printErrorLog(exchange, ex));
-		dataException = null;
+		result.put("body", body);
 		//参考AbstractErrorWebExceptionHandler
 		if (exchange.getResponse().isCommitted()) {
 			return Mono.error(ex);
@@ -138,14 +139,14 @@ public class GlobalRequestFilter implements GlobalFilter, Ordered, ErrorWebExcep
 		ServerHttpRequest request = exchange.getRequest();
 		StringBuilder sb = new StringBuilder();
 		sb.append("\n");
-		sb.append("======>[全局异常处理]异常请求路径:");
+		sb.append("======>[异常路径]：");
 		//请求路径
 		sb.append(request.getPath());
 		sb.append("\n");
-		sb.append("======>[数据异常]：");
+		sb.append("======>[异常提示]：");
 		sb.append(dataException.getMsg());
 		sb.append("\n");
-		sb.append("======>[错误消息]：");
+		sb.append("======>[异常消息]：");
 		sb.append(ExceptionUtil.stacktraceToString(ex, 1000));
 		return sb.toString();
 	}

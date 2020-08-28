@@ -1,6 +1,5 @@
 package com.microservice.tool.advice;
 
-import cn.hutool.core.util.ObjectUtil;
 import com.microservice.tool.constant.URIPrefixEnum;
 import com.microservice.tool.util.RequestHelper;
 import com.microservice.tool.util.ResponseResult;
@@ -37,11 +36,6 @@ public class MyResponseBodyAdvice implements ResponseBodyAdvice {
 		if (body == null) {
 			return new ResponseResult<>("");
 		}
-		Long startTime = (Long) request.getAttribute("_REQUEST_STARTTIME_");
-		if (ObjectUtil.isNotNull(startTime)) {
-			log.info("执行时间==>{}: {} ms", request.getRequestURI(), (System.currentTimeMillis() - startTime));
-		}
-
 		//匹配ResponseResult
 		if (body instanceof ResponseResult) {
 			return body;
