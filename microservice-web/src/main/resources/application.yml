@@ -1,0 +1,36 @@
+server:
+  port: 8012
+spring:
+  application:
+    name: microservice-web
+  mvc:
+    async:
+      request-timeout: 20000
+  profiles:
+    active:
+      - dev
+  #nacos服务注册
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848
+    alibaba:
+      seata:
+        #自定义事务组名称
+        tx-service-group: microservice-web-group
+
+  data:
+    redis:
+      repositories:
+        enabled: false
+
+#解决swagger的一个bug
+logging:
+  level:
+    io:
+      swagger:
+        models:
+          parameters:
+            AbstractSerializableParameter: error
+
+

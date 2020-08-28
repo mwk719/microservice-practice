@@ -9,11 +9,11 @@
 *因作者技术水平有限，如您发现可能存在的问题，欢迎指正，以便相互学习！*
 
 ### 介绍
-1. cxd-mobile：移动端接口服务（可做app/小程序/网页端服务）
-2. cxd-web：web管理端接口服务
-3. cxd-scheduled：处理定时任务
-4. cxd-tool：项目基础依赖工具
-5. cxd-repository：项目基础数据依赖
+1. microservice-mobile：移动端接口服务（可做app/小程序/网页端服务）
+2. microservice-web：web管理端接口服务
+3. microservice-scheduled：处理定时任务
+4. microservice-tool：项目基础依赖工具
+5. microservice-repository：项目基础数据依赖
 
 ### 框架结构
 1. web端使用shiro做用户权限管理
@@ -36,11 +36,11 @@
 
    调用实现：
 
-   cxd-mobile---DistributedTransactionController->saveTest()  
+   microservice-mobile---DistributedTransactionController->saveTest()  
 
    --服务调用-->
 
-   cxd-web---DistributedTransactionController->saveTest()  
+   microservice-web---DistributedTransactionController->saveTest()  
 
 ### 软件结构
 ````
@@ -64,18 +64,23 @@
 
 1. 安装并启动nacos，官网安装配置教程：[Nacos Spring Cloud快速开始](https://nacos.io/zh-cn/docs/quick-start-spring-cloud.html)
 2. 安装并启动seata，官网安装配置教程：[Seata新手部署指南](https://seata.io/zh-cn/docs/ops/deploy-guide-beginner.html) 不装也可以，只不过会一直打印日志，注册不上seata
-3. install cxd-tool
-4. install cxd-repository
-5. start cxd-mobile/cxd-scheduled/cxd-web
+3. install microservice-tool
+4. install microservice-repository
+5. start microservice-mobile/microservice-scheduled/microservice-web
 
 ### 功能事项
 
-#### cxd-gateway
+#### 缩包部署
+
+- microservice-mobile、microservice-scheduled、microservice-web都已使用maven插件打包时将依赖jar包单独复制到lib目录，
+  lib包可以单独放在服务器的和项目的相对路径，以后部署时就用上传jar包，减少部署项目上传的时间。
+
+#### microservice-gateway
 
 ##### 开放性
 
-1. 项目所有接口不对外开放，请求走cxd-gateway进行访问；
-2. 项目使用swagger做接口文档，可用于接口测试；cxd-gateway集成统一调用cxd-mobile和cxd-web的swagger-ui；
+1. 项目所有接口不对外开放，请求走microservice-gateway进行访问；
+2. 项目使用swagger做接口文档，可用于接口测试；microservice-gateway集成统一调用microservice-mobile和microservice-web的swagger-ui；
    启动后可请求http://localhost:8888/swagger-ui.html进行访问；
 
 ##### 权限认证/参数校验/日志打印
@@ -87,12 +92,12 @@
 
 1. 由ModifyResponseBodyFilter调用ResponseBodyAdvice对返回body进行包装；
 
-#### cxd-mobile
+#### microservice-mobile
 
-1. 从cxd-gateway进来的请求标记URIPrefixEnum#EXTERNAL为外部请求；
-2. 从cxd-mobile到cxd-web的请求，即内部请求，非来自cxd-gateway的请求会在feign中标记URIPrefixEnum#INTERIOR为内部请求；内部服务调用不包装返回体；//后续可做拦截处理等
+1. 从microservice-gateway进来的请求标记URIPrefixEnum#EXTERNAL为外部请求；
+2. 从microservice-mobile到microservice-web的请求，即内部请求，非来自microservice-gateway的请求会在feign中标记URIPrefixEnum#INTERIOR为内部请求；内部服务调用不包装返回体；//后续可做拦截处理等
 
-#### cxd-web
+#### microservice-web
 
 *说明：系统用户首先登陆，登陆后可以调用接口获取自己的权限菜单*
 
