@@ -60,7 +60,7 @@ public class RoleService {
 	public void save(ReqAddRoleVo param) {
 		ValidatorUtil.validateNull(param, new String[]{"role", "description"});
 		SysRole role = sysRoleRepository.findByRole(param.getRole());
-		AssertUtil.isNull(role, ErrorCode.ROLE_REPEAT);
+		AssertUtil.isNotNull(role, ErrorCode.ROLE_REPEAT);
 		SysRole sysRole = CommonBeanUtils.copyProperties(param, SysRole.class);
 		sysRole.setStatus(YesOrNoInd.YES.getValue());
 		sysRoleRepository.save(sysRole);

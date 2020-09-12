@@ -1,5 +1,6 @@
 # 微服务项目实战练习
 [![Build Status](https://travis-ci.com/mwk719/microservice-practice.svg?branch=master)](https://travis-ci.com/mwk719/microservice-practice)
+[![codecov](https://codecov.io/gh/mwk719/microservice-practice/branch/master/graph/badge.svg)](https://codecov.io/gh/mwk719/microservice-practice)
 
 ### 说明：
 1. 如果您之前从未接触过Spring Cloud，建议先以[程序猿DD-Dalston版](http://blog.didispace.com/spring-cloud-learning/) 开始学习，或者您可以浏览我的学习Demo[SpringCloud-Learing](https://github.com/mwk719/SpringCloud-Learing)
