@@ -19,7 +19,7 @@
 		<application.mainClass>com.microservice.tool.MicroserviceToolApplication</application.mainClass>
 		<!-- 打包时跳过测试 -->
 		<skipTests>true</skipTests>
-		<fastjson.version>1.2.58</fastjson.version>
+		<fastjson.version>1.2.83</fastjson.version>
 		<hutool.version>4.5.13</hutool.version>
 	</properties>
 
